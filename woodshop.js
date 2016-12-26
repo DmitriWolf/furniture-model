@@ -9,10 +9,10 @@ var thickness = 0.75;
 var shelfFactory = function() {
 
 	var board = moduleFactory({
-		material: "wood", 
-		name: "board",
+		material  : "wood", 
+		name      : "board",
 		dimensions: { x: 30, y: 8, z: 80 }, 
-		rules: { 
+		rules     : { 
 			scale: {
 				z: { rule: "fixed" } 
 			},
@@ -23,10 +23,10 @@ var shelfFactory = function() {
 	});
 
 	var shelf = moduleFactory({
-		name: "shelf",
-		children: [ board ], 
+		name      : "shelf",
+		children  : [ board ], 
 		dimensions: {z: 10}, 
-		rules: {
+		rules     : {
 			position: { 
 				z: { rule: "top" } 
 			},
@@ -47,7 +47,6 @@ var bookcaseFactory = function() {
 	var bottom = 			moduleFactory({ name: "bottom", material: "wood" });
 	var bookcase = 		moduleFactory({
 		name: "bookcase",
-		material: "empty", 
 		children: [ top, bottom, leftSide, rightSide, back ], 
 		dimensions: { x: 30, y: 8, z: 80 }, 
 		insideDimensions: { x: 28.5, y: 7.75, z: 76 },
@@ -55,7 +54,7 @@ var bookcaseFactory = function() {
 			// position defaults to Center
 			scale: { 
 				x: { rule: "fixed" },
-				y: { rule: "fixed" },
+			  y: { rule: "fixed" },
 				z: { rule: "fixed" } 
 			} 
 		}

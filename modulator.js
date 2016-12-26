@@ -1,18 +1,16 @@
-console.log('MOD 5 - get & set');
-
-var id = function() {
-	var newId = 0;
+var newCounter = function() {
+	var currentNumber = 0;
 	return {
-		getNewId: function() {
-				return newId++;
+		getNextNumber: function() {
+				return currentNumber++;
 			}
 		}
 }
-var idCounter = id();
+var idCounter = newCounter();
 
 var moduleFactory = function(props) {
 
-	moduleId = idCounter.getNewId();
+	moduleId = idCounter.getNextNumber();
 
 	var module = {
 		id: moduleId,
@@ -53,18 +51,6 @@ var moduleFactory = function(props) {
 			if(amount.y) { module.dimensions.y = module.dimensions.y * amount.y }
 			if(amount.z) { module.dimensions.z = module.dimensions.z * amount.z }
 			return module;
-		},
-
-		logChildren: function() {
-			module.children.forEach(function(element) {
-			  console.log(element.getInfo());
-			});
-		},
-		logInfo: function() {
-			console.log( this.getInfo() );
-		},
-		logDimensions: function() {
-			console.log( this.dimensions() );
 		}
 	}
 
