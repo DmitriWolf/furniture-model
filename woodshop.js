@@ -1,38 +1,34 @@
 console.log('------------------   WOODSHOP   -------------------');
 
-/*  
-	Shelves are made up of a "Board" module, child of a larger empty module, used for spacing.
-*/
-
 var thickness = 0.75;
 
 var shelfFactory = function() {
 
 	var board = moduleFactory({
-		material  : "wood", 
-		name      : "board",
-		dimensions: { x: 30, y: 8, z: 80 }, 
-		rules     : { 
+		material: "wood", 
+		name: "board",
+		dimensions: { z: 0.75 }, 
+		rules: { 
 			scale: {
-				z: { rule: "fixed" } 
+				z: "fixed"
 			},
 			position: {
-				z: { rule: "bottom" }
+				z: "bottom" 
 			}
 		}
 	});
 
 	var shelf = moduleFactory({
 		name      : "shelf",
-		children  : [ board ], 
+		parts  : [ board ], 
 		dimensions: {z: 10}, 
 		rules     : {
-			position: { 
-				z: { rule: "top" } 
-			},
 			scale: { 
-				z: { rule: "fixed" } 
-			} 
+				z: "share" 
+			},
+			position: { 
+				z: "top"
+			}
 		}
 	});
 
@@ -40,18 +36,56 @@ var shelfFactory = function() {
 }
 
 var bookcaseFactory = function() {
-	var back = 				moduleFactory({ name: "back", material: "wood" });
-	var leftSide = 		moduleFactory({ name: "leftSide", material: "wood" });
-	var rightSide = 	moduleFactory({ name: "rightSide", material: "wood" });
-	var top = 				moduleFactory({ name: "top", material: "wood" });
-	var bottom = 			moduleFactory({ name: "bottom", material: "wood" });
+	var back = 				moduleFactory({ 
+		name: "back", 
+		material: "wood",
+		dimensions: { y: 0.25 },
+		rules: { 
+			scale: { y:  "fixed" }, 
+			position: { y:  "back" }  
+		},
+	});
+	var leftSide = 		moduleFactory({ 
+		name: "leftSide", 
+		material: "wood",
+		dimensions: { x: 0.75 },
+		rules: { 
+			scale   : { x:  "fixed" }, 
+			position: { x:  "left" }  
+		},
+	});
+	var rightSide = 	moduleFactory({ 
+		name: "rightSide", 
+		material: "wood",
+		dimensions: { x: 0.75 },
+		rules: { 
+			scale   : { x:  "fixed" }, 
+			position: { x:  "right" } 
+		},
+	});
+	var top = 				moduleFactory({ 
+		name: "top", 
+		material: "wood",
+		dimensions: { z: 0.75 },
+		rules: { 
+			scale   : { z:  "fixed" }, 
+			position: { x:  "top" }  
+		}
+		});
+	var bottom = 			moduleFactory({ 
+		name: "bottom", 
+		material: "wood",
+		dimensions: { z: 0.75 },
+		rules: { 
+			scale   : { z:  "fixed" }, 
+			position: { x:  "bottom" } 
+		}
+	});
 	var bookcase = 		moduleFactory({
 		name: "bookcase",
-		children: [ top, bottom, leftSide, rightSide, back ], 
-		dimensions: { x: 30, y: 8, z: 80 }, 
-		insideDimensions: { x: 28.5, y: 7.75, z: 76 },
+		parts: [ top, bottom, leftSide, rightSide, back ], 
+		dimensions      : { x: 30, y: 8, z: 80 }, 
 		rules: {
-			// position defaults to Center
 			scale: { 
 				x: { rule: "fixed" },
 			  y: { rule: "fixed" },
@@ -66,13 +100,17 @@ var bookcaseFactory = function() {
 var shelves = moduleFactory({
 		name: "shelves"
 	});
+
 for(var i=0; i<3; i++) {
-	shelves.addChild( shelfFactory() );
+	var newShelf = shelfFactory();
+	newShelf.parent = shelves;
+	shelves.children.push(newShelf);
 }
 
 var bookcase = bookcaseFactory();
-bookcase.addChild( shelves );
+shelves.parent = bookcase;
+bookcase.children.push(shelves);
 
+bookcase.scale();
 console.log('BOOKCASE: ', bookcase);
-
 
