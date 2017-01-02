@@ -9,25 +9,26 @@ var newCounter = function() {
 var idCounter = newCounter();
 
 calculateInsideDimensions = function(module) {
-	// assuming we already have outside dimensions
-	module.insideDimensions = module.insideDimensions || {};
-	if(!module.parts) {
-		module.insideDimensions = module.dimensions;
-		return;
-	}
+	module.insideDimensions = module.dimensions;
+	if(!module.parts) return;
+
+	var fixedParts = module.parts.filter(function(part) {
+		return ( _.get(part, "rules.scale", { "rule" : "fixed" } ) );
+	});
+
+	var fixedDimensions = {};
 
 	var x = ['x', 'y', 'z'];
+
 	for(var i=0; i<3; i++) {
-		var fixedParts = module.parts.filter(function( part ) {
-		  return _.get(part, ('rules.scale.' + x[i]) ) ;
-		});
+		fixedDimensions[x[i]] = fixedParts.reduce(function(prevVal, elem) {
+		   return _.get(elem, "dimensions." + x[i] ) ? prevVal + _.get(elem, "dimensions." +x[i]) : prevVal ;
+		}, 0)};
 
-		var fixedDimension = 0;
-		fixedParts.forEach(function(part) { 
-			fixedDimension += part.dimensions[x[i]]; 
-		});
-
-		module.insideDimensions[x[i]] = ( module.dimensions[x[i]] - fixedDimension );
+	module.insideDimensions = {
+		x : module.dimensions.x - fixedDimensions.x, 
+		y : module.dimensions.y - fixedDimensions.y, 
+		z : module.dimensions.z - fixedDimensions.y, 
 	}
 }
 
@@ -60,7 +61,6 @@ sizeChildren = function(module) {
 			child.dimensions = child.dimensions || {};
 			child.dimensions[x[i]] = remainingDimension / shareChildren.length;
 		});
-
 	}
 }
 
@@ -69,15 +69,25 @@ var moduleFactory = function(props) {
 	moduleId = idCounter.getNextNumber();
 
 	var module = {
-		id: moduleId,
-		children 		: [],
+		id         : moduleId,
+		children   : [],
+		parts   : [],
+		dimensions : {},
+		insideDimensions : {},
+		position   : {},
+		orientation: {},
 		set: function(update) {
 			_.merge(this, update);
 		},
 		get: function(query) {
 			_.get(this, query);
 		},
+
+
+
 		scale: function() {
+			console.log('----------------------------');
+			console.log('scaling this ', this.name, this);
 			calculateInsideDimensions(this);
 			sizeChildren(this);
 			this.children.forEach(function(child) { child.scale(); } );
