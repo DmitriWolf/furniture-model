@@ -19,9 +19,11 @@ var moduleFactory = function(props) {
 		finish: { type: null, color: null },
 		position 		: {x: null, y: null, z: null},
 		dimensions	: {x: null, y: null, z: null},
+		insideDimensions	: {x: null, y: null, z: null},
 		orientation : {x: null, y: null, z: null},
 		parent			: null,
 		children 		: [],
+		parts		 		: [],
 		rules 			: {
 			position  : {
 				x : { rule: null, module: null },

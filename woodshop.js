@@ -75,4 +75,9 @@ bookcase.addChild( shelves );
 
 console.log('BOOKCASE: ', bookcase);
 
+$(function() {
+	var html = displayModule(bookcase);
+	$(display).append(html);
+});
+
 
