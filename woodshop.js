@@ -39,7 +39,7 @@ var bookcaseFactory = function() {
 		material: "wood",
 		dimensions: { y: 0.25 },
 		rules: { 
-			scale: { y:  "fixed" }, 
+			scale: { x: "full", y:  "fixed", z: "full" }, 
 			position: { y:  "back" }  
 		},
 	});
@@ -111,6 +111,8 @@ bookcase.children.push(shelves);
 
 bookcase.scale();
 console.log('BOOKCASE: ', bookcase);
+
+// console.log('size parts: ', sizeParts(bookcase));
 
 $(function() {
 	var html = displayModule(bookcase);

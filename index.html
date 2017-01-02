@@ -7,7 +7,6 @@
 	  <script type="text/template" id="module-display-template">
 		  <div id="module-<%= module.id %>">
 		  	<div class="dimensions row">
-					<div class="col-md-5">
 						<div class="panel panel-default">
 						  <div class="panel-body">
 						  	<table class="table">
@@ -26,29 +25,34 @@
 								      <td><%= module.dimensions.y %></td>
 								      <td><%= module.dimensions.z %></td>
 								    </tr>
-								    <tr>
-								      <th scope="row">Inside Dimensions</th>
-								      <td><%= module.insideDimensions.x %></td>
-								      <td><%= module.insideDimensions.y %></td>
-								      <td><%= module.insideDimensions.z %></td>
-								    </tr>
-								    <tr>
-								      <th scope="row">Position</th>
-								      <td><%= module.position.x %></td>
-								      <td><%= module.position.y %></td>
-								      <td><%= module.position.z %></td>
-								    </tr>
-								    <tr>
-								      <th scope="row">Orientation</th>
-								      <td><%= module.orientation.x %></td>
-								      <td><%= module.orientation.y %></td>
-								      <td><%= module.orientation.z %></td>
-								    </tr>
+								    <% if (module.insideDimensions) { %>
+									    <tr>
+									      <th scope="row">Inside Dimensions</th>
+									      <td><%= module.insideDimensions.x %></td>
+									      <td><%= module.insideDimensions.y %></td>
+									      <td><%= module.insideDimensions.z %></td>
+									    </tr>
+										<% } %>
+								    <% if (module.position) { %>
+									    <tr>
+									      <th scope="row">Position</th>
+									      <td><%= module.position.x %></td>
+									      <td><%= module.position.y %></td>
+									      <td><%= module.position.z %></td>
+									    </tr>
+										<% } %>
+								    <% if (module.orientation) { %>
+									    <tr>
+									      <th scope="row">Orientation</th>
+									      <td><%= module.orientation.x %></td>
+									      <td><%= module.orientation.y %></td>
+									      <td><%= module.orientation.z %></td>
+									    </tr>
+										<% } %>
 								  </tbody>
 								</table>
 						  </div>
 						</div>
-					</div>
 		  	</div> <!-- Dimensions Row -->
 		  </div>
 		</script>
