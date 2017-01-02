@@ -1,0 +1,11 @@
+th, .panel-heading {
+	text-transform: capitalize;
+}
+
+.table {
+	margin-bottom: 0;
+}
+
+tbody {
+	font-size: .8em;
+}

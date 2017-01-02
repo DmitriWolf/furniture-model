@@ -1,5 +1,3 @@
-console.log('------------------   WOODSHOP   -------------------');
-
 var thickness = 0.75;
 
 var shelfFactory = function() {
@@ -114,3 +112,7 @@ bookcase.children.push(shelves);
 bookcase.scale();
 console.log('BOOKCASE: ', bookcase);
 
+$(function() {
+	var html = displayModule(bookcase);
+	$(display).append(html);
+});

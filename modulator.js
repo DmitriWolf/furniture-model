@@ -83,11 +83,7 @@ var moduleFactory = function(props) {
 			_.get(this, query);
 		},
 
-
-
 		scale: function() {
-			console.log('----------------------------');
-			console.log('scaling this ', this.name, this);
 			calculateInsideDimensions(this);
 			sizeChildren(this);
 			this.children.forEach(function(child) { child.scale(); } );

@@ -3,12 +3,64 @@
 	  <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 	  <link type="text/css" rel="stylesheet" href="./styles.css" />
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.3/lodash.min.js" type="text/javascript"></script>
+	  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+	  <script type="text/template" id="module-display-template">
+		  <div id="module-<%= module.id %>">
+		  	<div class="dimensions row">
+					<div class="col-md-5">
+						<div class="panel panel-default">
+						  <div class="panel-body">
+						  	<table class="table">
+								  <thead>
+								    <tr>
+								    	<th><%= module.name %></th>
+								      <th>x</th>
+								      <th>y</th>
+								      <th>z</th>
+								    </tr>
+								  </thead>
+								  <tbody>
+								    <tr>
+								      <th scope="row">Outside Dimensions</th>
+								      <td><%= module.dimensions.x %></td>
+								      <td><%= module.dimensions.y %></td>
+								      <td><%= module.dimensions.z %></td>
+								    </tr>
+								    <tr>
+								      <th scope="row">Inside Dimensions</th>
+								      <td><%= module.insideDimensions.x %></td>
+								      <td><%= module.insideDimensions.y %></td>
+								      <td><%= module.insideDimensions.z %></td>
+								    </tr>
+								    <tr>
+								      <th scope="row">Position</th>
+								      <td><%= module.position.x %></td>
+								      <td><%= module.position.y %></td>
+								      <td><%= module.position.z %></td>
+								    </tr>
+								    <tr>
+								      <th scope="row">Orientation</th>
+								      <td><%= module.orientation.x %></td>
+								      <td><%= module.orientation.y %></td>
+								      <td><%= module.orientation.z %></td>
+								    </tr>
+								  </tbody>
+								</table>
+						  </div>
+						</div>
+					</div>
+		  	</div> <!-- Dimensions Row -->
+		  </div>
+		</script>
 	  <script src="./modulator.js" type="text/javascript"></script>
+	  <script src="./view.js" type="text/javascript"></script>
 	  <script src="./woodshop.js" type="text/javascript"></script>
 	  <title>Configurator</title>
 	</head>
 	<body>
-		<h1>Furniture Configurator</h1>
-
+		<div class="container">
+			<h1>Furniture Configurator</h1>
+			<div id="display"></div>
+			</div>
 	</body>
 </html>
