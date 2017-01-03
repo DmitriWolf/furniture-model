@@ -67,7 +67,7 @@ var bookcaseFactory = function() {
 		dimensions: { z: 0.75 },
 		rules: { 
 			scale   : { z:  "fixed" }, 
-			position: { x:  "top" }  
+			position: { z:  "top" }  
 		}
 		});
 	var bottom = 			moduleFactory({ 
@@ -76,7 +76,7 @@ var bookcaseFactory = function() {
 		dimensions: { z: 0.75 },
 		rules: { 
 			scale   : { z:  "fixed" }, 
-			position: { x:  "bottom" } 
+			position: { z:  "bottom" } 
 		}
 	});
 	var bookcase = 		moduleFactory({
@@ -109,10 +109,9 @@ var bookcase = bookcaseFactory();
 shelves.parent = bookcase;
 bookcase.children.push(shelves);
 
+setup(bookcase);
 bookcase.scale();
 console.log('BOOKCASE: ', bookcase);
-
-// console.log('size parts: ', sizeParts(bookcase));
 
 $(function() {
 	var html = displayModule(bookcase);
