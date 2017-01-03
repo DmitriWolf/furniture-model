@@ -115,5 +115,11 @@ console.log('BOOKCASE: ', bookcase);
 
 $(function() {
 	var html = displayModule(bookcase);
-	$(display).append(html);
+	var	final =	'<div id="module-' + bookcase.id + '">' +
+						  	'<div class="information">' +
+						  		'<div class="children panel panel-default">' +
+										html + '</div>' +
+						'</div' +
+					'</div';
+	$(display).append(final);
 });
