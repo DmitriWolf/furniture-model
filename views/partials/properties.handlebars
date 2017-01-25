@@ -1,0 +1,64 @@
+<div class="properties">
+	<table class="table">
+	  <thead>
+	    <tr>
+	    	<th class="name">{{ name }}</th>
+	      <th>x</th>
+	      <th>y</th>
+	      <th>z</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <th scope="row">Outside Dimensions</th>
+	      <td>{{ dimensions.x }}</td>
+	      <td>{{ dimensions.y }}</td>
+	      <td>{{ dimensions.z }}</td>
+	    </tr>
+	    {{#if insideDimensions }}
+		    <tr>
+		      <th scope="row">Inside Dimensions</th>
+		      <td>{{ insideDimensions.x }}</td>
+		      <td>{{ insideDimensions.y }}</td>
+		      <td>{{ insideDimensions.z }}</td>
+		    </tr>
+			{{/if}}
+	    {{#if position }}
+		    <tr>
+		      <th scope="row">Position</th>
+		      <td>{{ position.x }}</td>
+		      <td>{{ position.y }}</td>
+		      <td>{{ position.z }}</td>
+		    </tr>
+			{{/if}}
+	    {{#if orientation }}
+		    <tr>
+		      <th scope="row">Orientation</th>
+		      <td>{{ orientation.x }}</td>
+		      <td>{{ orientation.y }}</td>
+		      <td>{{ orientation.z }}</td>
+		    </tr>
+			{{/if}}
+	  </tbody>
+	</table>
+	{{#if parts}}
+	<div class="parts">
+	<p class="name">{{name}}'s Parts</p>
+	{{#each parts}}
+		<div style="margin: 0 10px">
+			{{> properties this}}
+		</div>
+	{{/each}}
+	</div>
+	{{/if}}
+
+	{{#if children}}
+	<div class="children">
+	{{#each children}}
+		<div style="margin: 0 10px">
+			{{> properties this}}
+		</div>
+	{{/each}}
+	{{/if}}
+
+</div>

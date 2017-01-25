@@ -1,6 +1,11 @@
 # furniture-model
 A flexible model for furniture specifications. 
 
+To build and run: 
+  node app.js
+
+Then in browser: localhost:3001
+
 var calculateInsideArea = function(module) {
 	/* 
 		"Inside AREA" includes inside dimensions and the POSITION of the center of those dimensions.

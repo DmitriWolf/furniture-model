@@ -1,0 +1,38 @@
+header {
+	margin: 20px 0;
+}
+.parts, .children {
+	max-width: 100%;
+	overflow: hidden;
+	border: 1px solid #ddd;
+}
+.bookcase {
+	padding: 0 30px;
+	border: 1px solid #ddd;
+}
+.children {
+	padding: 0 30px;
+}
+.parts {
+	background: #eee;
+}
+.parts .properties {
+	/*width: 240px;*/
+	margin: 20px;
+	padding: 10px;
+	float: left;
+	background: #fff;
+}
+.parts p.name {
+	margin-left: 20px;
+	margin-top: 20px;
+	/*font-size: 1.4em;*/
+}
+th.name {
+	/*font-size: 2em;*/
+}
+p.name, th.name {
+	text-transform: capitalize;
+	font-weight: bold;
+	font-size: 1.7em;
+}
