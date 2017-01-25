@@ -123,3 +123,6 @@ $(function() {
 					'</div';
 	$(display).append(final);
 });
+
+console.log('----- calculateInsideArea Dimensions (bookcase) ------');
+calculateInsideArea(bookcase);

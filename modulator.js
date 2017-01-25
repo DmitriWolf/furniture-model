@@ -15,6 +15,10 @@ var calculateInsideDimensions = function(module) {
 	var fixedParts = module.parts.filter(function(part) {
 		return ( _.get(part, "rules.scale", { "rule" : "fixed" } ) );
 	});
+console.log('fixedParts: ', fixedParts);
+	fixedParts.map(function(part) {
+
+	})
 
 	var fixedDimensions = {};
 
@@ -31,6 +35,148 @@ var calculateInsideDimensions = function(module) {
 		y : module.dimensions.y - fixedDimensions.y, 
 		z : module.dimensions.z - fixedDimensions.z, 
 	}
+}
+
+
+/*  
+	This is going to take some though.
+
+	There may be fixed parts on one or both sides of each dimension
+		x: left / right
+		y: back / front
+		z: top  / bottom
+
+	We need to subtract the dimension of each of these and move the remainder in the right direction, by the right amount.
+
+	This may be different for parts than children.
+	Parts
+		Parts are relative to the Outside Dimensions of their parent.
+		Parts ! form ! the inside dimension (and position) of their parent.
+
+	Children
+		Children are relative to the Inside Dimension of their parent.
+
+	Either way, we must iterate through them and give the remainder both dimension *and* position as we go.
+	Only then can we place everything properly.
+
+	As we iterate through the parts / children:
+		Find the fixed parts and give them their position.
+		Keep track of the remaining space and treat it as a volume with a dimension and a position.
+
+	After iterating through, we can size and place the fill / share parts remaining.
+
+	*/
+
+
+
+var calculateInsideArea = function(module) {
+	/* 
+		"Inside AREA" includes inside dimensions and the POSITION of the center of those dimensions.
+		This is complicated.
+		We are keeping track of the inside dimension of a module (for example a cabinet box)
+		 so that we can insert a set of drawers or shelves inside that box. 
+
+		To do this, we 
+		  - copy the outside dimensions of the module (inside dimensions = { x: dimensions.x, y: ... })
+		
+		Then we start to subtract the parts of the module (For a cabinet: the back, sides, bottom, and top)
+		We want to find which parts have a thickness (fixed dimension) to subtract from the volume,
+		then we find out their position (which side).
+
+		Once we have the necessary information, we 
+		  - subtract their thickness from the inside dimension, 
+		  - move the center of the inside dimension *away* from the part.
+
+		METHOD
+		First we 
+			- find the parts with one or more fixed dimensions, in any axis (x, y, z),
+		Once we have those, 
+			- iterate through each dimension (x, y, z)
+			- locate the parts with a fixed dimension in THAT axis (x, y, or z)
+			- Iterate through each part and (as outlined above):
+			  - subtract their thickness from the inside dimension, 
+			  - move the center of the inside dimension *away* from the part.
+
+		After doing all that, we will have an accurate Inside Dimension with dimensions(xyz) and position(xyz)
+
+	*/
+
+	console.log('calculateInsideArea for module "'+ module.name + '"');
+
+	var insideDimensions = module.dimensions;
+	var insidePosition	 = module.position;
+
+	if(!module.parts) return;
+
+	var partsWithFixedDimensions = fixedParts(bookcase);
+	console.log('partsWithFixedDimensions: ', partsWithFixedDimensions);
+
+	var x = ['x', 'y', 'z'];
+
+	for(var i=0; i<3; i++) {
+		partsWithFixedDimensions[x[i]].forEach(function(part) {
+
+			if( part.rules.scale[x[i]] == "fixed" ) { 
+				console.log(' we have a fixed part in dimension ', x[i], ': ', part);
+
+			var rule = _.get(part, "rules.position." + x[i]);
+
+			switch (rule) {
+			  case "front":
+			    if(x[i] == "y") {
+			    	// now remove the thickness from the dimension and move the center back by half the thickness.
+			    	insideDimensions.y += part.dimensions.y;
+			    	insidePosition.y += part.dimensions.y / 2;
+			    }
+			    break;
+			  case "back":
+			    if(x[i] == "y") {
+			    	insideDimensions.y -= part.dimensions.y;
+			    	insidePosition.y -= part.dimensions.y / 2;
+			    }
+			    break;
+			  case "left":
+			    if(x[i] == "x") {
+			    	insideDimensions.x += part.dimensions.x;
+			    	insidePosition.x += part.dimensions.x / 2;
+			    }
+			    break;
+			  case "right":
+			    if(x[i] == "x") {
+			    	insideDimensions.x -= part.dimensions.x;
+			    	insidePosition.x -= part.dimensions.x / 2;
+			    }
+			    break;
+			  case "top":
+			    if(x[i] == "z") {
+			    	insideDimensions.z -= part.dimensions.z;
+			    	insidePosition.z -= part.dimensions.z / 2;
+			    }
+			    break;
+			  case "bottom":
+			    if(x[i] == "z") {
+			    	insideDimensions.z -= part.dimensions.z;
+			    	insidePosition.z -= part.dimensions.z / 2;
+			    }
+			    break;
+			  default:
+			  console.error('default ', part.name);
+			    break;
+			  }
+
+
+			}
+		});
+	} // end loop x, y, z, shrinking inside dimension and moving its position
+
+	module.insideArea = {
+		insideDimensions : module.dimensions,
+		insidePosition	 : module.position
+	}
+
+	console.log('module.insideArea: ', module.insideArea);
+
+	// done 
 }
 
 var fixedParts = function(module) {
